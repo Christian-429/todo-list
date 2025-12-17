@@ -1,7 +1,7 @@
 function TodoListItem({todo}) {
     return (
         <li>
-            {todo.text};
+            {todo.title}
         </li>
     )
 }

@@ -1,21 +1,10 @@
 import TodoListItem from "./TodoListItem";
-function TodoList() {
-    const todos = [
-        { id: 1, text: "Study" },
-        { id: 2, text: "Eat" },
-        { id: 3, text: "Sleep" }
-    ];
-
+function TodoList({todoList}) {
     return (
         <ul>
-            {todos.map(todo => (
-                <TodoListItem
-                   key={todo.id}
-                   todo={todo} 
-                />
-            ))}
+            {todoList.map(todo => <TodoListItem key={todo.id} todo={todo} />)}
         </ul>
-    );
+    )
 }
 
 export default TodoList;
