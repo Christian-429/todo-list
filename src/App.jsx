@@ -2,18 +2,10 @@ import './App.css'
 import TodoList from './features/TodoList/TodoList.jsx'
 import TodoForm from './features/TodoForm.jsx'
 import TodosViewForm from './features/TodosViewForm.jsx'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
-const encodeUrl = ({ sortField, sortDirection, queryString }) => {
-  let searchQuery = ""
-  if (queryString) {
-    searchQuery = `&filterByFormula=SEARCH("${queryString}",+title)`
-  }
 
-  return encodeURI(
-    `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}${searchQuery}`
-  )
-}
+
 
 function App() {
   const [todoList, setTodoList] = useState([])
@@ -26,6 +18,17 @@ function App() {
 
   const token = `Bearer ${import.meta.env.VITE_PAT}`
 
+  const encodeUrl = useCallback(() =>{
+    let searchQuery = "";
+  if (queryString) {
+    searchQuery = `&filterByFormula=SEARCH("${queryString}",+title)`;
+  }
+
+  return encodeURI(
+    `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}${searchQuery}`
+  )
+  },[sortField, sortDirection, queryString])
+
   useEffect(() => {
     const fetchTodos = async () => {
       setIsLoading(true)
@@ -35,7 +38,7 @@ function App() {
       }
 
       try {
-        const resp = await fetch(encodeUrl({ sortField, sortDirection, queryString }), options)
+        const resp = await fetch(encodeUrl(), options)
         if (!resp.ok) throw new Error(resp.statusText || "Failed to fetch todos")
 
         const data = await resp.json()
@@ -64,7 +67,7 @@ function App() {
     const options = { method: "POST", headers: { Authorization: token, "Content-Type": "application/json" }, body: JSON.stringify(payload) }
 
     try {
-      const resp = await fetch(encodeUrl({ sortField, sortDirection, queryString }), options)
+      const resp = await fetch(encodeUrl(), options)
       if (!resp.ok) throw new Error(resp.statusText || "Failed to add todo")
       const { records } = await resp.json()
       const savedTodo = { id: records[0].id, ...records[0].fields }
@@ -89,7 +92,7 @@ function App() {
     const options = { method: "PATCH", headers: { Authorization: token, "Content-Type": "application/json" }, body: JSON.stringify(payload) }
 
     try {
-      const resp = await fetch(encodeUrl({ sortField, sortDirection, queryString }), options)
+      const resp = await fetch(encodeUrl(), options)
       if (!resp.ok) throw new Error(resp.statusText || "Failed to complete todo")
     } catch (error) {
       setErrorMessage(`${error.message}. Reverting todo...`)
@@ -116,7 +119,7 @@ function App() {
     const options = { method: "PATCH", headers: { Authorization: token, "Content-Type": "application/json" }, body: JSON.stringify(payload) }
 
     try {
-      const resp = await fetch(encodeUrl({ sortField, sortDirection, queryString }), options)
+      const resp = await fetch(encodeUrl(), options)
       if (!resp.ok) throw new Error(resp.statusText || "Failed to update todo")
       const { records } = await resp.json()
       const updatedTodo = { id: records[0].id, ...records[0].fields }
