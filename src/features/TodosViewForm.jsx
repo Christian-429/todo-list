@@ -1,4 +1,20 @@
 import { useState, useEffect } from "react";
+import styled from "styled-components"
+
+const StyledForm = styled.form`
+  padding: 1.5rem;
+  `;
+
+const StyledLabel = styled.label`
+  padding-right: 0.4rem;
+  `;
+const StyledDiv = styled.div`
+padding-bottom: 0.7rem;
+`;
+
+const StyledInput = styled.input`
+    padding: .2rem;
+  `;
 
 function TodosViewForm({ sortField, setSortField, sortDirection, setSortDirection, queryString, setQueryString }) {
 
@@ -14,10 +30,10 @@ function TodosViewForm({ sortField, setSortField, sortDirection, setSortDirectio
   }, [localQueryString, setQueryString]);
 
   return (
-    <form onSubmit={preventRefresh}>
-      <div>
-        <label htmlFor="searchTodos">Search todos:</label>
-        <input
+    <StyledForm onSubmit={preventRefresh}>
+      <StyledDiv>
+        <StyledLabel htmlFor="searchTodos">Search todos:</StyledLabel>
+        <StyledInput
           type="text"
           id="searchTodos"
           value={localQueryString}
@@ -26,10 +42,10 @@ function TodosViewForm({ sortField, setSortField, sortDirection, setSortDirectio
         <button type="button" onClick={() => setLocalQueryString("")}>
           Clear
         </button>
-      </div>
+      </StyledDiv>
 
       <div>
-        <label htmlFor="sortField">Sort by:</label>
+        <StyledLabel htmlFor="sortField">Sort by:</StyledLabel>
         <select
           id="sortField"
           value={sortField}
@@ -39,7 +55,7 @@ function TodosViewForm({ sortField, setSortField, sortDirection, setSortDirectio
           <option value="createdTime">Time added</option>
         </select>
 
-        <label htmlFor="sortDirection">Direction:</label>
+        <StyledLabel htmlFor="sortDirection">Direction:</StyledLabel>
         <select
           id="sortDirection"
           value={sortDirection}
@@ -49,7 +65,7 @@ function TodosViewForm({ sortField, setSortField, sortDirection, setSortDirectio
           <option value="desc">Descending</option>
         </select>
       </div>
-    </form>
+    </StyledForm>
   );
 }
 

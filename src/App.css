@@ -1,1 +1,29 @@
 
+body {
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(208, 178, 133)
+}
+
+#root {
+    padding: 2em;
+    background-color: rgb(207, 172, 120);
+}
+
+input[type="text"], select {
+    border-radius: 4px;
+    font-size: 1rem;
+    border: 1px solid rgb(0, 0, 0);
+}
+button {
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: blanchedalmond;
+}
+
+button:disabled {
+    background-color: rgb(233, 228, 228);
+
+}
