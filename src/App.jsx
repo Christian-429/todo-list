@@ -3,6 +3,7 @@ import TodoList from './features/TodoList/TodoList.jsx'
 import TodoForm from './features/TodoForm.jsx'
 import TodosViewForm from './features/TodosViewForm.jsx'
 import { useState, useEffect, useCallback } from 'react'
+import styles from "./App.module.css"
 
 
 
@@ -134,10 +135,17 @@ function App() {
   }
 
   return (
-    <div>
+  <div className={styles.appContainer}>
+    <div className={styles.app}>
       <h1>To Do List</h1>
+
       <TodoForm onAddTodo={addTodo} isSaving={isSaving} />
-      <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} isLoading={isLoading} />
+      <TodoList
+        todoList={todoList}
+        onCompleteTodo={completeTodo}
+        onUpdateTodo={updateTodo}
+        isLoading={isLoading}
+      />
 
       <hr />
 
@@ -151,14 +159,15 @@ function App() {
       />
 
       {errorMessage && (
-        <div>
+        <div className={styles.errorBox}>
           <hr />
           <p>{errorMessage}</p>
           <button onClick={() => setErrorMessage("")}>Dismiss</button>
         </div>
       )}
     </div>
-  )
+  </div>
+)
 }
 
 export default App
